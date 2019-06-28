@@ -1,11 +1,10 @@
-The [White House Website] is currently a WordPress site but the RSS feed appears
-to be disabled. *whrss.py* generates an  RSS feed by scraping the White House
-blog website. I run it every 30 minutes and publish it at:
+# An unofficial RSS feed for GitLab Releases
 
-[https://inkdroid.org/rss/whitehouse.xml](https://inkdroid.org/rss/whitehouse.xml)
+[GitLab](https://gitlab.com) provides a feed on their [official blog](https://about.gitlab.com/blog). On the website version
+one can pick category showing only [releases](https://about.gitlab.com/blog/categories/releases/), but RSS version has no such
+option. Hence this script that scrapes releases website and produces RSS feed
+with latest 10 posts.
 
-The main impetus for doing this was to use [diffengine] to publish [whitehouse_diff]. But maybe you'll find the RSS useful for other things too?
+Script is running every 30 minutes and is publicly available at:
 
-[White House Website]: https://www.whitehouse.gov/news/ 
-[diffengine]: https://github.docnow/diffengine
-[whitehouse_diff]: https://twitter.com/whitehouse_diff
+https://nodevops.com/rss/gitlab.xml
