@@ -3,6 +3,7 @@
 from bs4 import BeautifulSoup
 from datetime import datetime
 from urllib.request import urlopen
+from xml.sax.saxutils import escape
 
 # Provide the url_base and url_path for scrapping.
 url_base = "https://about.gitlab.com"
@@ -24,8 +25,8 @@ def get_item(a):
 
     """
     article = a.select('a')[0]
-    description = a.select(".summary")[0].text.strip()
-    title = article.text.strip()
+    description = escape(a.select(".summary")[0].text.strip())
+    title = escape(article.text.strip())
     url = url_base + article.attrs.get("href")
 
     created = a.select(".date")[0].text.strip()
