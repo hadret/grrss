@@ -54,7 +54,7 @@ def print_items():
         <link>{0}{1}</link>
         <description>An unofficial RSS feed for GitLab Releases</description>
         <language>en</language>
-        <atom:link href="https://nodevops.com/rss/gitlab.xml" rel="self" \
+        <atom:link href="https://hadret.com/rss/gitlab.xml" rel="self" \
 type="application/rss+xml" />
         <generator>grrss - https://github.com/hadret/grrss</generator>
         <pubDate>{2}</pubDate>
