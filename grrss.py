@@ -7,7 +7,7 @@ from xml.sax.saxutils import escape
 
 # Provide the url_base and url_path for scrapping.
 url_base = "https://about.gitlab.com"
-url_path = "/blog/categories/releases/"
+url_path = "/releases/categories/releases/"
 
 # Fetch the html, use bs4 for parsing and set date for now.
 html = urlopen(url_base + url_path).read()
@@ -25,11 +25,11 @@ def get_item(a):
 
     """
     article = a.select('a')[0]
-    description = escape(a.select(".summary")[0].text.strip())
+    description = escape(a.select(".blog-card-excerpt")[0].text.strip())
     title = escape(article.text.strip())
     url = url_base + article.attrs.get("href")
 
-    created = a.select(".date")[0].text.strip()
+    created = a.select(".blog-card-date")[0].text.strip()
     created = datetime.strptime(created, "%b %d, %Y")
     created = created.strftime("%a, %d %b %Y %H:%M:%S +0000")
 
@@ -43,6 +43,25 @@ def get_item(a):
     </item>
     """.format(title, url, description, created)
 
+def get_hero_item(h):
+    article = h.select('a')[1]
+    description = escape(h.select(".blog-hero-excerpt")[0].text.strip())
+    title = escape(article.text.strip())
+    url = url_base + article.attrs.get("href")
+
+    created = h.select(".blog-hero-date")[0].text.strip()
+    created = datetime.strptime(created, "%b %d, %Y")
+    created = created.strftime("%a, %d %b %Y %H:%M:%S +0000")
+
+    return """
+    <item>
+      <title>{0}</title>
+      <link>{1}</link>
+      <guid>{1}</guid>
+      <description>{2}</description>
+      <pubDate>{3}</pubDate>
+    </item>
+    """.format(title, url, description, created)
 
 def print_items():
     """Spit out RSS feed with latest 10 posts."""
@@ -60,7 +79,12 @@ type="application/rss+xml" />
         <pubDate>{2}</pubDate>
     """.format(url_base, url_path, now))
 
-    for a in soup.select('.article', limit=10):
+    for h in soup.select('.blog-hero-content', limit=1):
+        item = get_hero_item(h)
+        if item:
+            print(item)
+
+    for a in soup.select('.blog-card-content', limit=9):
         item = get_item(a)
         if item:
             print(item)
