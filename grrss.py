@@ -24,7 +24,7 @@ def get_item(a):
     date format so that strftime function can work.
 
     """
-    article = a.select('a')[0]
+    article = a.select("a")[0]
     description = escape(a.select(".blog-card-excerpt")[0].text.strip())
     title = escape(article.text.strip())
     url = url_base + article.attrs.get("href")
@@ -41,10 +41,13 @@ def get_item(a):
       <description>{2}</description>
       <pubDate>{3}</pubDate>
     </item>
-    """.format(title, url, description, created)
+    """.format(
+        title, url, description, created
+    )
+
 
 def get_hero_item(h):
-    article = h.select('a')[1]
+    article = h.select("a")[1]
     description = escape(h.select(".blog-hero-excerpt")[0].text.strip())
     title = escape(article.text.strip())
     url = url_base + article.attrs.get("href")
@@ -61,11 +64,15 @@ def get_hero_item(h):
       <description>{2}</description>
       <pubDate>{3}</pubDate>
     </item>
-    """.format(title, url, description, created)
+    """.format(
+        title, url, description, created
+    )
+
 
 def print_items():
     """Spit out RSS feed with latest 10 posts."""
-    print("""<?xml version="1.0" encoding="utf-8" ?>
+    print(
+        """<?xml version="1.0" encoding="utf-8" ?>
     <rss version="2.0" xml:base="{0}" xmlns:dc="http://purl.org/dc/elements/\
 1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
       <channel>
@@ -77,22 +84,27 @@ def print_items():
 type="application/rss+xml" />
         <generator>grrss - https://github.com/hadret/grrss</generator>
         <pubDate>{2}</pubDate>
-    """.format(url_base, url_path, now))
+    """.format(
+            url_base, url_path, now
+        )
+    )
 
-    for h in soup.select('.blog-hero-content', limit=1):
+    for h in soup.select(".blog-hero-content", limit=1):
         item = get_hero_item(h)
         if item:
             print(item)
 
-    for a in soup.select('.blog-card-content', limit=9):
+    for a in soup.select(".blog-card-content", limit=9):
         item = get_item(a)
         if item:
             print(item)
 
-    print("""
+    print(
+        """
         </channel>
     </rss>
-    """)
+    """
+    )
 
 
 print_items()
